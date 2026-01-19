@@ -23,6 +23,7 @@ body {
 
 h2 {
     color: #333;
+    margin-bottom: 20px;
 }
 
 .barra-superior {
@@ -97,4 +98,53 @@ th {
     text-align: center;
     background-color: #04AA6D;
     color: white;
+}
+
+.acoes {
+    display: flex;
+    justify-content: center;
+    gap: 5px;
+}
+
+.cadastrar-container {
+    max-width: 500px;
+    background: #fff;
+    padding: auto;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.grupo-formulario {
+    text-align: left;
+    margin-bottom: 15px;
+}
+
+.grupo-formulario label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.grupo-formulario input {
+    width: 100%;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    font-size: 1rem;
+}
+
+.acoes-formulario {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+button.salvar {
+    background-color: #28a745;
+    color: #fff;
+}
+
+button.cancelar {
+    background-color: #dc3545;
+    color: #fff;
 }
