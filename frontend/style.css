@@ -35,7 +35,7 @@ h2 {
     padding: 10px;
 }
 
-#campo-filtro {
+#campoFiltro {
     flex: 1;
     padding: 8px;
     border-radius: 8px;
@@ -107,11 +107,12 @@ th {
 }
 
 .cadastrar-container {
-    max-width: 500px;
+    max-width: 70%;
     background: #fff;
-    padding: auto;
+    padding: 30px;
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin: auto auto;
 }
 
 .grupo-formulario {
