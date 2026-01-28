@@ -32,7 +32,7 @@ const EsquemaUsuario = new mongoose.Schema({
 
 const Usuario = mongoose.model("Usuario", EsquemaUsuario);
 
-app.post("/", async (req, res) => {
+app.post("/usuarios", async (req, res) => {
   try {
     const { nome, email, idade } = req.body;
     const novoUsuario = new Usuario({ nome, email, idade });
@@ -45,14 +45,101 @@ app.post("/", async (req, res) => {
   } catch (error) {
     res.status(400).json({
       message: "Erro ao cadastrar usuário",
-      details: Error.mensage,
+      details: error.message,
     });
   }
 });
 
-app.get("/", (req, res) => {
-  res.send("API RODANDO");
+app.get("/usuarios", async (req, res) => {
+  try {
+    const listaUsuarios = await Usuario.find();
+
+    res.status(200).json({listaUsuarios});
+
+  } catch (error) {
+    res.status(400).json({
+      message: "Erro ao visualizar usuário.",
+      details: error.mensage,
+    });
+    
+  }
 });
+
+app.put('/usuarios/:id', async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { nome, email, idade } = req.body;
+
+    const atualizaUsuario = await Usuario.findOneAndUpdate(
+      id, 
+      { nome, email, idade, },
+      { new: true }
+    );
+
+    if (!atualizaUsuario) {
+      return res.status(404).json({
+        message: "Usuário não encontrado",
+      });
+    }
+
+    res.status(200).json({
+      message: "usuário atualizado com sucesso.",
+    });
+
+  } catch (error) {
+    res.status(400).json({
+      message: "Erro ao atualizar usuário",
+      details: error.message,
+    })
+  }
+});
+
+app.delete("/usuarios/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const usuarioDeletado =  await Usuario.findByIdAndDelete(id)
+
+    if (!usuarioDeletado) {
+      return res.status(404).json({
+        message: "Usuário não encontrado",
+      });
+    }
+
+    res.status(200).json({
+      message: "Usuário deletado com sucesso.",
+    });
+
+  } catch (error) {
+    res.status(500).json({
+      message: "Erro ao deletar o usuário",
+      details: error.message,
+    });
+  }
+});
+
+app.get("/usuarios/filtro/:termo", async (req, res) => {
+  try {
+    const { termo } = req.params;
+
+    const usuariosFiltrados = await Usuario.find({
+      $or: [
+        {nome: {$regex: termo, $options: 'i'}},
+        {email: {$regex: termo, $options: 'i'}},
+      ]
+    });
+
+    res.status(200).json({
+      usuariosFiltrados,
+    });
+
+  } catch (error) {
+    res.status(404).json({
+      message: "Erro ao filtrar usuários",
+      details: error.message,
+    });
+  }
+})
 
 app.listen(PORT, () => {
   console.log(`Servidor rodando na porta ${PORT}`);
